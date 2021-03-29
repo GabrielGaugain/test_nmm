@@ -58,14 +58,6 @@ def main():
 
     plt.figure()
     plt.plot(t, Yrk4[1,:]-Yrk4[2,:])
-
-
-    Y02 = np.zeros((8,))
-    Yrk42 = rk4(nmm_J_R_JULIEN,t,h,Y02)
-
-    plt.figure()
-    plt.plot(t, Yrk42[1,:]-Yrk42[2,:])
-
     plt.show()
 
 
