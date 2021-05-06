@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import random
 from ODE import rk4
 import timeit
-
+from loguru import logger
 
 
 def sigmo(mu, e_0=2.5, r=0.56, mu0=6 ):
@@ -61,6 +61,7 @@ Yrk4 = rk4(nmm_J_R, t,h, Y0)
                             number=5,
                             )
     print( times)
+
 
 def main():
 

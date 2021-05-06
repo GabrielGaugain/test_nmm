@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import random
 from ODE import rk4
 import timeit
+from loguru import logger
 
 
 
@@ -54,7 +55,7 @@ def mult_JRM(Y, t, K,  A=3.25, a =100, B=22, b=50, ad=30, C=135):
     
     dY_dt[pyr_deriv] = A*a*sigmo(Y[INE]- Y[INI]) - 2*a*Y[pyr_deriv] - a**2 * Y[pyr]     
     dY_dt[INE_deriv] = A*a*C[1]*sigmo(C[0]*Y[pyr]) - 2*a*Y[INE_deriv] - a**2 * Y[INE]   \
-                     + A*a*( P + K.T @ Y[conn] )
+                     + A*a*( P + K @ Y[conn] )
     dY_dt[INI_deriv] = B*b*C[3]*sigmo(C[2]*Y[pyr]) - 2*b*Y[INI_deriv] - b**2 * Y[INI]   
 
     ## equation for output to other pop
@@ -89,6 +90,7 @@ Yrk4 = rk4(mult_JRM, t,h, Y0, K=K )
                             )
     print( times)
 
+@logger.catch
 def main():
 
     t0 = 0
@@ -97,8 +99,8 @@ def main():
     t = np.arange(t0,tf,h) # de 0 à 2s avec pas de 1ms
     N = 2
     Y0 = np.zeros((8*N,) )    # pas de CI => 0
-    #K= 1.4*(np.ones((N,N)) - np.eye(N))
-    K = np.array([[0, 70],[70 , 0]])
+    K= 60*(np.ones((N,N)) - np.eye(N))
+    #K = np.array([[0, 10],[100 , 0]])
     #dY0 = np.zeros((4,2) )    # pas de CI => 0
     # Y0 = np.random.normal(0,1,6)  # CI random
 
