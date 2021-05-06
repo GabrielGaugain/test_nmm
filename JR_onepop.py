@@ -2,9 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 from ODE import rk4
-
-C=135
-
+import timeit
 
 
 
@@ -41,7 +39,28 @@ def nmm_J_R(Y,t, A=3.25, a =100 , B=22 ,b= 50, C=135):
 
     return dY_dt
 
+def measure_time():
+    Setup_code = '''
+from JR_twopop_test import nmm_J_R
+from ODE import rk4
+import numpy as np
+    '''
 
+    Test_code = '''
+t0 = 0
+tf= 5 #s
+h = 0.001
+t = np.arange(t0,tf,h) 
+Y0 = np.zeros((8,) )    
+Yrk4 = rk4(nmm_J_R, t,h, Y0)
+    '''
+
+    times = timeit.repeat(setup=Setup_code,
+                            stmt=Test_code,
+                            repeat=5,
+                            number=5,
+                            )
+    print( times)
 
 def main():
 
